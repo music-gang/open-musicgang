@@ -1,0 +1,12 @@
+[workspace]
+
+members = [
+    "common",
+    "app",
+    "app/entity",
+    "app/service",
+    "cmd/mgd",
+    "cmd/mg-cli",
+    "postgres",
+    "mock"
+]

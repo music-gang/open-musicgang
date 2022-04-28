@@ -1,0 +1,11 @@
+[package]
+name = "mock"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+common = {path = "../common"}
+entity = {path = "../app/entity"}
+service = {path = "../app/service"}
