@@ -1,7 +1,9 @@
-use common::context::Context;
-use common::error::Error;
-use entity::user::User;
-use service::user_service::{UserFilter, UserUpdate};
+use openmusicgang_common::context::Context;
+use openmusicgang_common::error::Error;
+use openmusicgang_entity::user::User;
+use openmusicgang_service::user_service::{
+    UserFilter, UserService as UserServiceTrait, UserUpdate,
+};
 
 pub struct UserService {
     pub create_user_fn: Option<fn(Context, User) -> Result<(), Error>>,
@@ -12,7 +14,7 @@ pub struct UserService {
     pub find_users_fn: Option<fn(Context, UserFilter) -> Result<(Vec<User>, usize), Error>>,
 }
 
-impl service::user_service::UserService for UserService {
+impl UserServiceTrait for UserService {
     fn create_user(&self, ctx: Context, user: User) -> Result<(), Error> {
         if let Some(f) = self.create_user_fn {
             return f(ctx, user);
@@ -48,11 +50,7 @@ impl service::user_service::UserService for UserService {
         panic!("find_user_by_email_fn not set");
     }
 
-    fn find_users(
-        &self,
-        ctx: Context,
-        filters: service::user_service::UserFilter,
-    ) -> Result<(Vec<User>, usize), Error> {
+    fn find_users(&self, ctx: Context, filters: UserFilter) -> Result<(Vec<User>, usize), Error> {
         if let Some(f) = self.find_users_fn {
             return f(ctx, filters);
         }

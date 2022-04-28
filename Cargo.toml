@@ -1,12 +1,26 @@
-[workspace]
+[package]
+description = "OpenMusicGang"
+name = "openmusicgang"
+version = "0.0.0"
+license = "BSD-3-Clause"
+edition = "2021"
 
-members = [
-    "common",
-    "app",
-    "app/entity",
-    "app/service",
-    "cmd/mgd",
-    "cmd/mg-cli",
-    "postgres",
-    "mock"
+[dependencies]
+openmusicgang-entity   = { path = "crates/app/entity" }
+openmusicgang-service  = { path = "crates/app/service" }
+openmusicgang-common   = { path = "crates/common" }
+openmusicgang-postgres = { path = "crates/postgres" }
+
+[[bin]]
+path = "cmd/mgd/main.rs"
+name = "openmusicgang"
+
+[workspace]
+members = [ 
+    "crates/app", 
+    "crates/app/entity", 
+    "crates/app/service", 
+    "crates/common", 
+    "crates/mock", 
+    "crates/postgres"
 ]

@@ -1,5 +1,5 @@
 use crate::Validable;
-use common::error::{Error, ErrorCode};
+use openmusicgang_common::error::{Error, ErrorCode};
 
 /// User is a struct to represent a user.
 ///
@@ -12,36 +12,36 @@ pub struct User {
 }
 
 impl Validable for User {
-    fn validate(&self) -> Option<Error> {
+    fn validate(&self) -> Result<(), Error> {
         if self.id == 0 {
-            return Some(Error::new(
+            return Err(Error::new(
                 ErrorCode::EINVALID,
                 "id is required".to_string(),
             ));
         }
 
         if self.name == "" {
-            return Some(Error::new(
+            return Err(Error::new(
                 ErrorCode::EINVALID,
                 "name is required".to_string(),
             ));
         }
 
         if self.email == "" {
-            return Some(Error::new(
+            return Err(Error::new(
                 ErrorCode::EINVALID,
                 "email is required".to_string(),
             ));
         }
 
         if self.password == "" {
-            return Some(Error::new(
+            return Err(Error::new(
                 ErrorCode::EINVALID,
                 "password is required".to_string(),
             ));
         }
 
-        None
+        Ok(())
     }
 }
 
