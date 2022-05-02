@@ -1,0 +1,9 @@
+[app]
+env = "local"
+
+[postgres]
+host = "localhost"
+port = 5432
+username = "postgres"
+password = "admin"
+database = "openmusicgang"

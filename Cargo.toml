@@ -9,6 +9,7 @@ edition = "2021"
 openmusicgang-entity   = { path = "crates/app/entity" }
 openmusicgang-service  = { path = "crates/app/service" }
 openmusicgang-common   = { path = "crates/common" }
+openmusicgang-config   = { path = "crates/config" }
 openmusicgang-postgres = { path = "crates/postgres" }
 
 [[bin]]
@@ -21,6 +22,7 @@ members = [
     "crates/app/entity", 
     "crates/app/service", 
     "crates/common", 
+    "crates/config", 
     "crates/mock", 
     "crates/postgres"
 ]
