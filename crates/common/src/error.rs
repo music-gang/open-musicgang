@@ -1,3 +1,5 @@
+use core::fmt;
+
 /// ErrorCode is an enum to represent error codes.
 /// You can define your own error codes here.
 #[derive(Clone, Copy, PartialEq, Debug)]
@@ -10,6 +12,12 @@ pub enum ErrorCode {
     ENOTFOUND,
     ECONFLICT,
     ENOTIMPLEMENTED,
+}
+
+impl fmt::Display for ErrorCode {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", self.as_str())
+    }
 }
 
 impl ErrorCode {
@@ -48,6 +56,12 @@ impl ErrorCode {
 pub struct Error {
     pub code: ErrorCode,
     pub message: String,
+}
+
+impl fmt::Display for Error {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "code='{}' message='{}'", self.code, self.message)
+    }
 }
 
 impl Error {
