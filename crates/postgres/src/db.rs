@@ -115,13 +115,14 @@ fn connection(dsn: &str) -> Result<Client, Error> {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
 
     #[test]
     fn test_connection() {
-        // let dsn = "postgres://postgres:admin@localhost:5432/openmusicgang_test";
-        // let mut db = DB::new(dsn.to_string());
-        // db.open().unwrap();
-        // db.close();
+        let dsn = "postgres://postgres:admin@localhost:5432/openmusicgang_test";
+        let mut db = DB::new(dsn.to_string());
+        db.open().unwrap();
+        db.close();
         println!("OK!");
     }
 }
