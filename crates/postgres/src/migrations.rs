@@ -5,7 +5,7 @@ pub struct Migration<'a> {
 }
 
 #[allow(dead_code)]
-pub fn migrations<'a>() -> Vec<Migration<'a>> {
+pub fn get_migrations_list<'a>() -> Vec<Migration<'a>> {
     vec![
         Migration {
             name: "000-create_users_table",
