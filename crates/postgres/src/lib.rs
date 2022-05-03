@@ -32,7 +32,7 @@ pub mod test_utils {
 
     #[allow(dead_code)]
     pub fn must_truncate_table(db: &mut DB, table: &str) {
-        let query = format!("TRUNCATE TABLE {}", table);
+        let query = format!("TRUNCATE TABLE {} RESTART IDENTITY CASCADE", table);
         must_exec(db, &query, &[]);
     }
 
