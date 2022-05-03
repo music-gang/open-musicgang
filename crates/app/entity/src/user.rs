@@ -11,18 +11,24 @@ pub struct User {
     pub updated_at: DateTime<Utc>,
     pub name: String,
     pub email: String,
-    pub password: String,
+    pub password: Option<String>,
+}
+
+impl User {
+    pub fn new() -> User {
+        User {
+            id: 0,
+            created_at: Utc::now(),
+            updated_at: Utc::now(),
+            name: "".to_string(),
+            email: "".to_string(),
+            password: None,
+        }
+    }
 }
 
 impl Validable for User {
     fn validate(&self) -> Result<(), Error> {
-        if self.id == 0 {
-            return Err(Error::new(
-                ErrorCode::EINVALID,
-                "id is required".to_string(),
-            ));
-        }
-
         if self.name == "" {
             return Err(Error::new(
                 ErrorCode::EINVALID,
@@ -37,10 +43,10 @@ impl Validable for User {
             ));
         }
 
-        if self.password == "" {
+        if self.password.is_some() && self.password.as_ref().unwrap().len() == 0 {
             return Err(Error::new(
                 ErrorCode::EINVALID,
-                "password is required".to_string(),
+                "password cannot be empty if provided".to_string(),
             ));
         }
 
