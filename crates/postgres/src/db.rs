@@ -119,7 +119,7 @@ mod tests {
 
     #[test]
     fn test_connection() {
-        let dsn = "postgres://postgres:admin@localhost:5432/openmusicgang_test";
+        let dsn = "postgres://postgres:admin@localhost:5432/openmusicgang";
         let mut db = DB::new(dsn.to_string());
         db.open().unwrap();
         db.close();
