@@ -1,39 +1,9 @@
 use config::{Config, File};
 use openmusicgang_common::error::{Error, ErrorCode};
-use serde::{Deserialize, Deserializer};
+use serde::Deserialize;
 
-pub trait DeserializeWith: Sized {
-    fn deserialize_with<'de, D>(de: D) -> Result<Self, D::Error>
-    where
-        D: Deserializer<'de>;
-}
-
-#[derive(Clone, Debug, Deserialize, PartialEq)]
-pub enum Env {
-    Local,
-    Development,
-    Testing,
-    Staging,
-    Production,
-}
-
-impl DeserializeWith for Env {
-    fn deserialize_with<'de, D>(de: D) -> Result<Self, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        let s = String::deserialize(de)?;
-
-        match s.as_ref() {
-            "local" => Ok(Env::Local),
-            "development" => Ok(Env::Development),
-            "testing" => Ok(Env::Testing),
-            "staging" => Ok(Env::Staging),
-            "production" => Ok(Env::Production),
-            _ => Ok(Env::Local),
-        }
-    }
-}
+use crate::env::Env;
+use openmusicgang_common::traits::DeserializeWith;
 
 #[derive(Debug, Deserialize, Clone)]
 pub struct App {
@@ -77,6 +47,18 @@ impl AppConfig {
         }
 
         app_config.unwrap()
+    }
+
+    /// Returns the database connection string.
+    pub fn get_dsn(&self) -> String {
+        format!(
+            "postgres://{}:{}@{}:{}/{}",
+            self.postgres.username,
+            self.postgres.password,
+            self.postgres.host,
+            self.postgres.port,
+            self.postgres.database
+        )
     }
 }
 
