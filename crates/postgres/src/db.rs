@@ -124,7 +124,9 @@ mod tests {
     fn test_connection() {
         let dsn = openmusicgang_config::app_config::AppConfig::new("../../config.toml").get_dsn();
         let mut db = DB::new(dsn);
-        db.open().unwrap();
+        if let Err(error) = db.open() {
+            panic!("{}", error);
+        }
 
         must_drop_table_if_exists(&mut db, "test_table");
 
