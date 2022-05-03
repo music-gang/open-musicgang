@@ -1,0 +1,9 @@
+[app]
+env = "testing"
+
+[postgres]
+host = "postgres-service"
+port = 5432
+username = "postgres"
+password = "admin"
+database = "openmusicgang"
