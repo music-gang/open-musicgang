@@ -1,6 +1,12 @@
+use std::sync::Mutex;
+
 use crate::migrations;
+use once_cell::sync::Lazy;
 use openmusicgang_common::error::{Error, ErrorCode};
 use postgres::{Client, NoTls, Transaction};
+
+/// The Resource is used to manage mutex on shared resources.
+static THE_RESOURCE: Lazy<Mutex<()>> = Lazy::new(Mutex::default);
 
 /// DB is a struct that contains the connection to the database
 pub struct DB {
@@ -97,6 +103,8 @@ impl DB {
             Ok(client) => self.client = Some(client),
             Err(error) => return Err(error),
         }
+
+        let _shared = THE_RESOURCE.lock();
 
         self.migrate()?;
 
