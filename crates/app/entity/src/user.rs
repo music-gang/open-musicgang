@@ -1,11 +1,14 @@
 use crate::Validable;
+use chrono::prelude::*;
 use openmusicgang_common::error::{Error, ErrorCode};
 
 /// User is a struct to represent a user.
 ///
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct User {
-    pub id: u64,
+    pub id: i64,
+    pub created_at: DateTime<Utc>,
+    pub updated_at: DateTime<Utc>,
     pub name: String,
     pub email: String,
     pub password: String,
@@ -42,12 +45,5 @@ impl Validable for User {
         }
 
         Ok(())
-    }
-}
-
-impl User {
-    #[allow(dead_code)]
-    fn new() -> User {
-        return User::default();
     }
 }
