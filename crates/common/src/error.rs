@@ -24,7 +24,7 @@ impl ErrorCode {
     /// Returns the error code as a string.
     pub fn as_str(&self) -> &'static str {
         match self {
-            ErrorCode::EINTERNAL => "internal server error",
+            ErrorCode::EINTERNAL => "internal error",
             ErrorCode::EINVALID => "invalid",
             ErrorCode::EFORBIDDEN => "forbidden",
             ErrorCode::EUNKNOWN => "unknown",
@@ -60,7 +60,7 @@ pub struct Error {
 
 impl fmt::Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "code='{}' message='{}'", self.code, self.message)
+        write!(f, "code={} message={}", self.code, self.message)
     }
 }
 
