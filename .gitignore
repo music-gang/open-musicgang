@@ -10,7 +10,7 @@
 # Config files
 *.ini
 *.conf
-config.Toml
+config.toml
 
 # Cargo lock in subs
 **/Cargo.lock

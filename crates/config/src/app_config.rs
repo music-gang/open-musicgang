@@ -87,7 +87,7 @@ mod tests {
 
     #[test]
     fn load_config() {
-        let cfg = AppConfig::new("../../config");
+        let cfg = AppConfig::new("../../config.toml");
         assert!(
             cfg.app.env == Env::Local
                 || cfg.app.env == Env::Development
