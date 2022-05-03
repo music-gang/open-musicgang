@@ -115,14 +115,65 @@ fn connection(dsn: &str) -> Result<Client, Error> {
 
 #[cfg(test)]
 mod tests {
+
+    use postgres::types::ToSql;
+
     use super::*;
 
     #[test]
     fn test_connection() {
-        let dsn = "postgres://postgres:admin@localhost:5432/openmusicgang";
-        let mut db = DB::new(dsn.to_string());
+        let dsn = openmusicgang_config::app_config::AppConfig::new("../../config.toml").get_dsn();
+        let mut db = DB::new(dsn);
         db.open().unwrap();
+
+        must_drop_table_if_exists(&mut db, "test_table");
+
+        let mut query = "CREATE TABLE test_table (
+            id SERIAL PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            created_at TIMESTAMP NOT NULL DEFAULT NOW()
+        )";
+        must_exec(&mut db, query, &[]);
+
+        query = "INSERT INTO test_table (name) VALUES ($1)";
+        must_exec(&mut db, query, &[&"test"]);
+
+        query = "SELECT * FROM test_table";
+        must_exec(&mut db, query, &[]);
+        must_truncate_table(&mut db, "test_table");
+
         db.close();
         println!("OK!");
+    }
+
+    #[allow(dead_code)]
+    fn must_open_db() -> DB {
+        let dsn = openmusicgang_config::app_config::AppConfig::new("../../config.toml").get_dsn();
+        DB::new(dsn.to_string())
+    }
+
+    #[allow(dead_code)]
+    fn must_exec(db: &mut DB, query: &str, params: &[&(dyn ToSql + Sync)]) {
+        let mut tx = db.begin_tx().unwrap();
+
+        if let Err(error) = tx.execute(query, params) {
+            panic!("{}", error);
+        }
+
+        if let Err(error) = tx.commit() {
+            panic!("{}", error);
+        }
+    }
+
+    #[allow(dead_code)]
+    fn must_truncate_table(db: &mut DB, table: &str) {
+        let query = format!("TRUNCATE TABLE {}", table);
+        must_exec(db, &query, &[]);
+    }
+
+    #[allow(dead_code)]
+    fn must_drop_table_if_exists(db: &mut DB, table: &str) {
+        let query = format!("DROP TABLE IF EXISTS {}", table);
+        must_exec(db, &query, &[]);
     }
 }
