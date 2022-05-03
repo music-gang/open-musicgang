@@ -13,7 +13,7 @@ openmusicgang-config   = { path = "crates/config" }
 openmusicgang-postgres = { path = "crates/postgres" }
 
 [[bin]]
-path = "cmd/mgd/main.rs"
+path = "cmd/omg/main.rs"
 name = "openmusicgang"
 
 [workspace]
