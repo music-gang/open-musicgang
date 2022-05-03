@@ -47,6 +47,9 @@ impl DB {
         )";
 
         tx.batch_execute(query)
+            .map_err(|error| Error::new(ErrorCode::EINTERNAL, error.to_string()))?;
+
+        tx.commit()
             .map_err(|error| Error::new(ErrorCode::EINTERNAL, error.to_string()))
     }
 
@@ -95,6 +98,8 @@ impl DB {
             Err(error) => return Err(error),
         }
 
+        self.migrate()?;
+
         Ok(())
     }
 
@@ -116,9 +121,8 @@ fn connection(dsn: &str) -> Result<Client, Error> {
 #[cfg(test)]
 mod tests {
 
-    use postgres::types::ToSql;
-
     use super::*;
+    use crate::test_utils::*;
 
     #[test]
     fn test_connection() {
@@ -146,36 +150,5 @@ mod tests {
 
         db.close();
         println!("OK!");
-    }
-
-    #[allow(dead_code)]
-    fn must_open_db() -> DB {
-        let dsn = openmusicgang_config::app_config::AppConfig::new("../../config.toml").get_dsn();
-        DB::new(dsn.to_string())
-    }
-
-    #[allow(dead_code)]
-    fn must_exec(db: &mut DB, query: &str, params: &[&(dyn ToSql + Sync)]) {
-        let mut tx = db.begin_tx().unwrap();
-
-        if let Err(error) = tx.execute(query, params) {
-            panic!("{}", error);
-        }
-
-        if let Err(error) = tx.commit() {
-            panic!("{}", error);
-        }
-    }
-
-    #[allow(dead_code)]
-    fn must_truncate_table(db: &mut DB, table: &str) {
-        let query = format!("TRUNCATE TABLE {}", table);
-        must_exec(db, &query, &[]);
-    }
-
-    #[allow(dead_code)]
-    fn must_drop_table_if_exists(db: &mut DB, table: &str) {
-        let query = format!("DROP TABLE IF EXISTS {}", table);
-        must_exec(db, &query, &[]);
     }
 }
