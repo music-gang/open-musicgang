@@ -1,4 +1,4 @@
-use openmusicgang_common::error::Error;
+use openmusicgang_app::error::Error;
 
 pub mod user;
 

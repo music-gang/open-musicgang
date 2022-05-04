@@ -11,6 +11,7 @@ pub enum Value {
     Integer(i64),
     Number(f64),
     Bool(bool),
+    // User(User),
     Null,
 }
 

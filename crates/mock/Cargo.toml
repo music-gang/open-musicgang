@@ -6,6 +6,6 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-openmusicgang-common = {path = "../common"}
+openmusicgang-app = {path = "../app"}
 openmusicgang-entity = {path = "../app/entity"}
 openmusicgang-service = {path = "../app/service"}

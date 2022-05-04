@@ -1,9 +1,9 @@
 use config::{Config, File};
-use openmusicgang_common::error::{Error, ErrorCode};
+use openmusicgang_app::error::{Error, ErrorCode};
 use serde::Deserialize;
 
 use crate::env::Env;
-use openmusicgang_common::traits::DeserializeWith;
+use openmusicgang_app::traits::DeserializeWith;
 
 #[derive(Debug, Deserialize, Clone)]
 pub struct App {

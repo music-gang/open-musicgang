@@ -2,8 +2,8 @@ use std::sync::{Arc, Mutex};
 
 use chrono::prelude::*;
 
-use openmusicgang_common::context::AppContext;
-use openmusicgang_common::error::{Error, ErrorCode};
+use openmusicgang_app::context::AppContext;
+use openmusicgang_app::error::{Error, ErrorCode};
 use openmusicgang_entity::user::User;
 use openmusicgang_entity::Validable;
 use openmusicgang_service::user_service::{
@@ -101,12 +101,7 @@ fn create_user(_ctx: AppContext, tx: &mut Transaction, user: &mut User) -> Resul
                 &user.updated_at,
             ],
         )
-        .map_err(|error| {
-            Error::new(
-                openmusicgang_common::error::ErrorCode::EINTERNAL,
-                error.to_string(),
-            )
-        })?;
+        .map_err(|error| Error::new(ErrorCode::EINTERNAL, error.to_string()))?;
 
     user.id = row.get(0);
 
@@ -116,7 +111,7 @@ fn create_user(_ctx: AppContext, tx: &mut Transaction, user: &mut User) -> Resul
 #[cfg(test)]
 mod tests {
 
-    use openmusicgang_common::context::Context;
+    use openmusicgang_app::context::Context;
 
     use crate::test_utils::{must_open_db, must_truncate_table};
 

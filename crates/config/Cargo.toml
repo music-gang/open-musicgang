@@ -8,4 +8,4 @@ edition = "2021"
 [dependencies]
 config = "0.13.1"
 serde = "1.0.137"
-openmusicgang-common = { path = "../common" }
+openmusicgang-app = { path = "../app" }

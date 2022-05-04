@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use openmusicgang_common::traits::DeserializeWith;
+use openmusicgang_app::traits::DeserializeWith;
 use serde::{Deserialize, Deserializer};
 
 #[derive(Clone, Debug, Deserialize, PartialEq)]

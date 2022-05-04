@@ -2,7 +2,7 @@ use std::sync::Mutex;
 
 use crate::migrations;
 use once_cell::sync::Lazy;
-use openmusicgang_common::error::{Error, ErrorCode};
+use openmusicgang_app::error::{Error, ErrorCode};
 use postgres::{Client, NoTls, Transaction};
 
 /// The Resource is used to manage mutex on shared resources.

@@ -1,6 +1,6 @@
 use crate::Validable;
 use chrono::prelude::*;
-use openmusicgang_common::error::{Error, ErrorCode};
+use openmusicgang_app::error::{Error, ErrorCode};
 
 /// User is a struct to represent a user.
 ///

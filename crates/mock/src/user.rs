@@ -1,5 +1,5 @@
-use openmusicgang_common::context::AppContext;
-use openmusicgang_common::error::Error;
+use openmusicgang_app::context::AppContext;
+use openmusicgang_app::error::Error;
 use openmusicgang_entity::user::User;
 use openmusicgang_service::user_service::{
     UserFilter, UserService as UserServiceTrait, UserUpdate,
