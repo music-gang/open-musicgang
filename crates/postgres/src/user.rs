@@ -12,6 +12,7 @@ use openmusicgang_service::user_service::{
 use postgres::Transaction;
 
 use crate::db::DB;
+use crate::{insert_user_params, insert_user_sql};
 
 /// UserService is a struct that implements the UserServiceTrait for the postgres crate.
 pub struct UserService {
@@ -83,24 +84,7 @@ fn create_user(_ctx: AppContext, tx: &mut Transaction, user: &mut User) -> Resul
     user.validate()?;
 
     let row = tx
-        .query_one(
-            "
-        INSERT INTO users (
-			name,
-			email,
-			password,
-			created_at,
-			updated_at
-		) VALUES ( $1, $2, $3, $4, $5 ) RETURNING id
-    ",
-            &[
-                &user.name,
-                &user.email,
-                &user.password,
-                &user.created_at,
-                &user.updated_at,
-            ],
-        )
+        .query_one(insert_user_sql!(), insert_user_params!(user))
         .map_err(|error| Error::new(ErrorCode::EINTERNAL, error.to_string()))?;
 
     user.id = row.get(0);
