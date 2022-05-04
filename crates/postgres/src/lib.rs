@@ -2,7 +2,6 @@ pub mod db;
 pub mod migrations;
 pub mod query;
 pub mod user;
-pub mod utils;
 
 #[cfg(test)]
 pub mod test_utils {
