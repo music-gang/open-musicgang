@@ -8,7 +8,7 @@ pub trait UserService {
 
     fn delete_user(&self, ctx: AppContext, id: i64) -> Result<(), Error>;
 
-    fn update_user(&self, ctx: AppContext, user: UserUpdate) -> Result<(), Error>;
+    fn update_user(&self, ctx: AppContext, id: i64, user: UserUpdate) -> Result<User, Error>;
 
     fn find_user_by_id(&self, ctx: AppContext, id: i64) -> Result<User, Error>;
 
