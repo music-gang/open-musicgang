@@ -19,6 +19,7 @@ name = "openmusicgang"
 members = [ 
     "crates/app", 
     "crates/app/entity", 
+    "crates/app/err", 
     "crates/app/service", 
     "crates/config", 
     "crates/mock", 

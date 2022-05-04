@@ -1,6 +1,6 @@
 use openmusicgang_app::context::AppContext;
-use openmusicgang_app::error::Error;
 use openmusicgang_entity::user::User;
+use openmusicgang_err::error::Error;
 
 /// UserService is the service for user management.
 pub trait UserService {

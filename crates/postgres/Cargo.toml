@@ -10,6 +10,7 @@ once_cell = "1.10.0"
 chrono = { version = "0.4.0" }
 postgres = { version = "0.19", features = ["with-chrono-0_4"] }
 openmusicgang-app = {path = "../app"}
+openmusicgang-err = {path = "../app/err"}
 openmusicgang-service = {path = "../app/service"}
 openmusicgang-entity = {path = "../app/entity"}
 openmusicgang-config = {path = "../config"}

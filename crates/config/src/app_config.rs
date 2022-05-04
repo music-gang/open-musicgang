@@ -1,5 +1,5 @@
 use config::{Config, File};
-use openmusicgang_app::error::{Error, ErrorCode};
+use openmusicgang_err::error::{Error, ErrorCode};
 use serde::Deserialize;
 
 use crate::env::Env;

@@ -7,5 +7,6 @@ edition = "2021"
 
 [dependencies]
 openmusicgang-app = {path = "../app"}
+openmusicgang-err = {path = "../app/err"}
 openmusicgang-entity = {path = "../app/entity"}
 openmusicgang-service = {path = "../app/service"}

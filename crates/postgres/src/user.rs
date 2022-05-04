@@ -3,9 +3,9 @@ use std::sync::{Arc, Mutex};
 use chrono::prelude::*;
 
 use openmusicgang_app::context::AppContext;
-use openmusicgang_app::error::{Error, ErrorCode};
 use openmusicgang_entity::user::User;
 use openmusicgang_entity::Validable;
+use openmusicgang_err::error::{Error, ErrorCode};
 use openmusicgang_service::user_service::{
     UserFilter, UserService as UserServiceTrait, UserUpdate,
 };
