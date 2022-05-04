@@ -94,13 +94,6 @@ impl UserServiceTrait for UserService {
 
         let user = find_user_by_id(ctx, &mut tx, id)?;
 
-        tx.commit().map_err(|_| {
-            Error::new(
-                ErrorCode::EINTERNAL,
-                "Could not commit transaction to database".to_string(),
-            )
-        })?;
-
         Ok(user)
     }
 
@@ -117,22 +110,21 @@ impl UserServiceTrait for UserService {
 
         let user = find_user_by_email(ctx, &mut tx, email)?;
 
-        tx.commit().map_err(|_| {
-            Error::new(
-                ErrorCode::EINTERNAL,
-                "Could not commit transaction to database".to_string(),
-            )
-        })?;
-
         Ok(user)
     }
 
-    fn find_users(
-        &self,
-        _ctx: AppContext,
-        _filters: UserFilter,
-    ) -> Result<(Vec<User>, usize), Error> {
-        todo!()
+    /// Returns a vector of users based on passed filters, also returns the total number of users.
+    fn find_users(&self, ctx: AppContext, filters: UserFilter) -> Result<(Vec<User>, i64), Error> {
+        let mut mutex_db = self.db.lock().map_err(|_| {
+            Error::new(
+                ErrorCode::EINTERNAL,
+                "Could not acquire lock on database".to_string(),
+            )
+        })?;
+
+        let mut tx = mutex_db.begin_tx()?;
+
+        find_users(ctx, &mut tx, filters)
     }
 }
 

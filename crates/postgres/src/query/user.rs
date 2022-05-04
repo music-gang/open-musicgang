@@ -64,3 +64,22 @@ macro_rules! select_users_sql {
         ", $whereConditions.join("\nAND "), $limitOffsetConditions)
     }
 }
+
+/// update_users_sql is a macro that generates the SQL to update a user in the database.
+#[macro_export]
+macro_rules! update_users_sql {
+    () => {
+        "UPDATE users SET
+            name = $1,
+            updated_at = $2
+        WHERE id = $3"
+    };
+}
+
+/// update_users_params is a macro that returns the parameters for an UPDATE statement in users table.
+#[macro_export]
+macro_rules! update_users_params {
+    ($user:expr) => {
+        &[&$user.name, &$user.updated_at, &$user.id]
+    };
+}
