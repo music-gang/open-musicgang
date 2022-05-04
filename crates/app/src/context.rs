@@ -3,6 +3,8 @@ use std::{
     sync::{Arc, Mutex},
 };
 
+use openmusicgang_entity::user::User;
+
 /// Value is an enum to represent all possibile values accepted inside the context.
 /// You can define your own values here.
 #[derive(Clone, Debug, PartialEq)]
@@ -11,7 +13,7 @@ pub enum Value {
     Integer(i64),
     Number(f64),
     Bool(bool),
-    // User(User),
+    User(User),
     Null,
 }
 

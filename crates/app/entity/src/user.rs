@@ -4,7 +4,7 @@ use openmusicgang_err::error::{Error, ErrorCode};
 
 /// User is a struct to represent a user.
 ///
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct User {
     pub id: i64,
     pub created_at: DateTime<Utc>,
