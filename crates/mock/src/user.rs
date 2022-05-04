@@ -11,7 +11,7 @@ pub struct UserService {
     pub update_user_fn: Option<fn(AppContext, UserUpdate) -> Result<(), Error>>,
     pub find_user_by_id_fn: Option<fn(AppContext, i64) -> Result<User, Error>>,
     pub find_user_by_email_fn: Option<fn(AppContext, String) -> Result<User, Error>>,
-    pub find_users_fn: Option<fn(AppContext, UserFilter) -> Result<(Vec<User>, usize), Error>>,
+    pub find_users_fn: Option<fn(AppContext, UserFilter) -> Result<(Vec<User>, i64), Error>>,
 }
 
 impl UserServiceTrait for UserService {
@@ -50,11 +50,7 @@ impl UserServiceTrait for UserService {
         panic!("find_user_by_email_fn not set");
     }
 
-    fn find_users(
-        &self,
-        ctx: AppContext,
-        filters: UserFilter,
-    ) -> Result<(Vec<User>, usize), Error> {
+    fn find_users(&self, ctx: AppContext, filters: UserFilter) -> Result<(Vec<User>, i64), Error> {
         if let Some(f) = self.find_users_fn {
             return f(ctx, filters);
         }

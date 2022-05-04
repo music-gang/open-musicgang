@@ -14,8 +14,7 @@ pub trait UserService {
 
     fn find_user_by_email(&self, ctx: AppContext, email: String) -> Result<User, Error>;
 
-    fn find_users(&self, ctx: AppContext, filters: UserFilter)
-        -> Result<(Vec<User>, usize), Error>;
+    fn find_users(&self, ctx: AppContext, filters: UserFilter) -> Result<(Vec<User>, i64), Error>;
 }
 
 /// UserUpdate is a struct for allowed fields to update a user.
