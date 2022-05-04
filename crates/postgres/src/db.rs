@@ -68,7 +68,7 @@ impl DB {
         let mut tx = self.begin_tx()?;
 
         for migration in migrations::get_migrations_list() {
-            let query = format!("SELECT COUNT(*) FROM migrations WHERE name = $1",);
+            let query = format!("SELECT COUNT(*) FROM migrations WHERE name = $1");
             let row = tx
                 .query_one(&query, &[&migration.name])
                 .map_err(|error| Error::new(ErrorCode::EINTERNAL, error.to_string()))?;
