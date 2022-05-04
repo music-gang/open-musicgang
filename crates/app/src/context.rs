@@ -17,6 +17,8 @@ pub enum Value {
     Null,
 }
 
+static CONTEXT_KEY_USER: &str = "user";
+
 /// AppContext is an alias for Thread-Safe Context.
 pub type AppContext = Arc<Mutex<Context>>;
 
@@ -49,6 +51,24 @@ impl Context {
         }))
     }
 
+    /// Returns the user id from the context.
+    /// Returns None if user is not found.
+    pub fn user_id_from_context(ctx: AppContext) -> Option<i64> {
+        match Context::user_from_context(ctx) {
+            Some(user) => Some(user.id),
+            None => None,
+        }
+    }
+
+    pub fn user_from_context(app: AppContext) -> Option<User> {
+        let ctx = app.lock().unwrap();
+        let user = ctx.value(CONTEXT_KEY_USER.to_string());
+        match user {
+            Some(Value::User(user)) => Some(user),
+            _ => None,
+        }
+    }
+
     /// Returns the value stored in the context, if not found, returns None.
     pub fn value(&self, key: String) -> Option<Value> {
         let ctx = Some(self);
@@ -64,6 +84,11 @@ impl Context {
         }
 
         None
+    }
+
+    /// Create a new context with the given user as the value of the key "user".
+    pub fn with_user(ctx: AppContext, user: User) -> AppContext {
+        Context::with_value(ctx, CONTEXT_KEY_USER.to_string(), Value::User(user))
     }
 
     /// Create a new context with the given parent context and key-value pairs.
@@ -83,6 +108,8 @@ mod tests {
 
     use super::*;
 
+    use openmusicgang_entity::user::User;
+
     #[test]
     fn with_value() {
         let ctx = Context::with_value(Context::background(), "val".to_string(), Value::Integer(32));
@@ -90,6 +117,19 @@ mod tests {
         assert_eq!(
             ctx.lock().unwrap().value("val".to_string()),
             Some(Value::Integer(32))
+        );
+    }
+
+    #[test]
+    fn test_with_user() {
+        let mut user = User::new();
+        user.name = "Bob Smith".to_string();
+
+        let ctx = Context::with_user(Context::background(), user.clone());
+
+        assert_eq!(
+            ctx.lock().unwrap().value(CONTEXT_KEY_USER.to_string()),
+            Some(Value::User(user))
         );
     }
 
