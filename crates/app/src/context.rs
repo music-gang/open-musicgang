@@ -53,10 +53,10 @@ impl Context {
 
     /// Returns the user id from the context.
     /// Returns None if user is not found.
-    pub fn user_id_from_context(ctx: AppContext) -> Option<i64> {
+    pub fn user_id_from_context(ctx: AppContext) -> i64 {
         match Context::user_from_context(ctx) {
-            Some(user) => Some(user.id),
-            None => None,
+            Some(user) => user.id,
+            None => 0,
         }
     }
 
@@ -73,14 +73,10 @@ impl Context {
     pub fn value(&self, key: String) -> Option<Value> {
         let ctx = Some(self);
 
-        while ctx.is_some() {
-            let ctx = ctx.unwrap();
+        let ctx = ctx.unwrap();
 
-            if let Some(value) = ctx.values.get(&key) {
-                return Some(value.clone());
-            }
-
-            ctx.parent_ctx.as_ref().map(|ctx| ctx.clone());
+        if let Some(value) = ctx.values.get(&key) {
+            return Some(value.clone());
         }
 
         None
@@ -93,12 +89,12 @@ impl Context {
 
     /// Create a new context with the given parent context and key-value pairs.
     pub fn with_value(ctx: AppContext, key: String, value: Value) -> AppContext {
-        let mut values = ctx.lock().unwrap().values.clone();
-        values.insert(key, value);
+        let mut ctx = ctx.lock().unwrap();
+        ctx.values.insert(key, value);
 
         Arc::new(Mutex::new(Context {
-            parent_ctx: ctx.lock().unwrap().parent_ctx.clone(),
-            values,
+            parent_ctx: ctx.parent_ctx.clone(),
+            values: ctx.values.clone(),
         }))
     }
 }
