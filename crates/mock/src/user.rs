@@ -7,9 +7,9 @@ use openmusicgang_service::user_service::{
 
 pub struct UserService {
     pub create_user_fn: Option<fn(AppContext, &mut User) -> Result<(), Error>>,
-    pub delete_user_fn: Option<fn(AppContext, u64) -> Result<(), Error>>,
+    pub delete_user_fn: Option<fn(AppContext, i64) -> Result<(), Error>>,
     pub update_user_fn: Option<fn(AppContext, UserUpdate) -> Result<(), Error>>,
-    pub find_user_by_id_fn: Option<fn(AppContext, u64) -> Result<User, Error>>,
+    pub find_user_by_id_fn: Option<fn(AppContext, i64) -> Result<User, Error>>,
     pub find_user_by_email_fn: Option<fn(AppContext, String) -> Result<User, Error>>,
     pub find_users_fn: Option<fn(AppContext, UserFilter) -> Result<(Vec<User>, usize), Error>>,
 }
@@ -22,7 +22,7 @@ impl UserServiceTrait for UserService {
         panic!("create_user_fn not set");
     }
 
-    fn delete_user(&self, ctx: AppContext, id: u64) -> Result<(), Error> {
+    fn delete_user(&self, ctx: AppContext, id: i64) -> Result<(), Error> {
         if let Some(f) = self.delete_user_fn {
             return f(ctx, id);
         }
@@ -36,7 +36,7 @@ impl UserServiceTrait for UserService {
         panic!("update_user_fn not set");
     }
 
-    fn find_user_by_id(&self, ctx: AppContext, id: u64) -> Result<User, Error> {
+    fn find_user_by_id(&self, ctx: AppContext, id: i64) -> Result<User, Error> {
         if let Some(f) = self.find_user_by_id_fn {
             return f(ctx, id);
         }
