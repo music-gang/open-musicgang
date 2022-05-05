@@ -12,7 +12,7 @@ use openmusicgang_service::user_service::{
 use postgres::types::ToSql;
 use postgres::Transaction;
 
-use crate::db::DB;
+use crate::postgres::DB;
 use crate::{
     delete_user_params, delete_user_sql, format_limit_offset, insert_user_params, insert_user_sql,
     select_users_sql, update_users_params, update_users_sql, where_condition_eq,

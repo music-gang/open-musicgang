@@ -1,7 +1,7 @@
 use std::sync::{Arc, Mutex};
 
 use openmusicgang_config::app_config::AppConfig;
-use openmusicgang_postgres::{db::DB as PgDB, user::UserService as PgUserService};
+use openmusicgang_postgres::{postgres::DB as PgDB, user::UserService as PgUserService};
 use openmusicgang_redis::redis::DB as RedisDB;
 
 fn main() {

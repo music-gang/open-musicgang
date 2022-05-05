@@ -1,5 +1,5 @@
-pub mod db;
 pub mod migrations;
+pub mod postgres;
 pub mod query;
 pub mod user;
 
@@ -7,11 +7,12 @@ pub mod user;
 pub mod test_utils {
     use postgres::types::ToSql;
 
-    use crate::db::DB;
+    use crate::postgres::DB;
 
     #[allow(dead_code)]
     pub fn must_open_db() -> DB {
-        let dsn = openmusicgang_config::app_config::AppConfig::new("../../config.toml").get_postgres_dsn();
+        let dsn = openmusicgang_config::app_config::AppConfig::new("../../config.toml")
+            .get_postgres_dsn();
         let mut db = DB::new(dsn.to_string());
         db.open().unwrap();
         db
