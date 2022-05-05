@@ -11,7 +11,7 @@ static THE_RESOURCE: Lazy<Mutex<()>> = Lazy::new(Mutex::default);
 /// DB is a struct that contains the connection to the database
 pub struct DB {
     client: Option<Client>,
-    pub dsn: String,
+    dsn: String,
 }
 
 impl DB {
@@ -134,7 +134,7 @@ mod tests {
 
     #[test]
     fn test_connection() {
-        let dsn = openmusicgang_config::app_config::AppConfig::new("../../config.toml").get_dsn();
+        let dsn = openmusicgang_config::app_config::AppConfig::new("../../config.toml").get_postgres_dsn();
         let mut db = DB::new(dsn);
         if let Err(error) = db.open() {
             panic!("{}", error);

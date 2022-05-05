@@ -11,7 +11,7 @@ pub mod test_utils {
 
     #[allow(dead_code)]
     pub fn must_open_db() -> DB {
-        let dsn = openmusicgang_config::app_config::AppConfig::new("../../config.toml").get_dsn();
+        let dsn = openmusicgang_config::app_config::AppConfig::new("../../config.toml").get_postgres_dsn();
         let mut db = DB::new(dsn.to_string());
         db.open().unwrap();
         db

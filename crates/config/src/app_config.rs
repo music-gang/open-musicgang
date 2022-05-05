@@ -21,9 +21,17 @@ pub struct Postgres {
 }
 
 #[derive(Debug, Deserialize, Clone)]
+pub struct Redis {
+    pub host: String,
+    pub port: u16,
+    pub password: String,
+}
+
+#[derive(Debug, Deserialize, Clone)]
 pub struct AppConfig {
     pub app: App,
     pub postgres: Postgres,
+    pub redis: Redis,
 }
 
 impl AppConfig {
@@ -50,7 +58,7 @@ impl AppConfig {
     }
 
     /// Returns the database connection string.
-    pub fn get_dsn(&self) -> String {
+    pub fn get_postgres_dsn(&self) -> String {
         format!(
             "postgres://{}:{}@{}:{}/{}",
             self.postgres.username,
@@ -58,6 +66,14 @@ impl AppConfig {
             self.postgres.host,
             self.postgres.port,
             self.postgres.database
+        )
+    }
+
+    /// Returns the Redis connection string.
+    pub fn get_redis_dsn(&self) -> String {
+        format!(
+            "redis://{}@{}:{}",
+            self.redis.password, self.redis.host, self.redis.port
         )
     }
 }
