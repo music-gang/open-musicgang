@@ -10,6 +10,7 @@ openmusicgang-entity   = { path = "crates/app/entity" }
 openmusicgang-service  = { path = "crates/app/service" }
 openmusicgang-config   = { path = "crates/config" }
 openmusicgang-postgres = { path = "crates/postgres" }
+openmusicgang-redis    = { path = "crates/redis" }
 
 [[bin]]
 path = "cmd/omg/main.rs"
@@ -23,5 +24,6 @@ members = [
     "crates/app/service", 
     "crates/config", 
     "crates/mock", 
+    "crates/redis", 
     "crates/postgres"
 ]

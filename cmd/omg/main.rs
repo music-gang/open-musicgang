@@ -1,7 +1,8 @@
 use std::sync::{Arc, Mutex};
 
 use openmusicgang_config::app_config::AppConfig;
-use openmusicgang_postgres::{db::DB, user::UserService as PgUserService};
+use openmusicgang_postgres::{db::DB as PgDB, user::UserService as PgUserService};
+use openmusicgang_redis::redis::DB as RedisDB;
 
 fn main() {
     let app = Main::new();
@@ -12,7 +13,8 @@ fn main() {
 #[allow(dead_code)]
 struct Main {
     config: openmusicgang_config::app_config::AppConfig,
-    postgres: Arc<Mutex<DB>>,
+    postgres: Arc<Mutex<PgDB>>,
+    redis: Arc<Mutex<RedisDB>>,
 }
 
 impl Main {
@@ -21,7 +23,8 @@ impl Main {
 
         Box::new(Main {
             config: AppConfig::new("config.toml"),
-            postgres: Arc::new(Mutex::new(DB::new(config.get_dsn()))),
+            postgres: Arc::new(Mutex::new(PgDB::new(config.get_postgres_dsn()))),
+            redis: Arc::new(Mutex::new(RedisDB::new(config.get_redis_dsn()))),
         })
     }
 
